@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use Laminas\Diactoros\Response\HtmlResponse;
+use Laminas\Diactoros\Response\RedirectResponse;
 
 class BaseController
 {
@@ -12,5 +13,10 @@ class BaseController
         $twig = new \Twig\Environment($loader);
         $render = $twig->render($url, $data);
         return new HtmlResponse($render);
+    }
+
+    public function redirect($url)
+    {
+        return new RedirectResponse($url);
     }
 }

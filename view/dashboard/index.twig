@@ -1,0 +1,31 @@
+{% extends "/layout/layout.twig" %}
+{% block content %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">SG</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <a class="nav-link active" aria-current="page" href="#">Home</a>
+        <a class="nav-link" href="#">Mis ahorros</a>
+        <a class="nav-link" href="#">Meta</a>
+        <a class="nav-link" href="#">Configurar</a>
+      </div>
+    </div>
+  </div>
+</nav>
+<div class="row my-3">
+    <div class="col-6">
+        <select class="form-select" aria-label="Default select example">
+            <option selected>2021</option>
+            <option value="1">One</option>
+            <option value="2">Two</option>
+            <option value="3">Three</option>
+        </select>
+    </div>
+</div>
+<div id="columnchart_material" class="my-4" style="width: 100%; height: 500px;"></div>
+<script src="assets/js/graficas.js"></script>
+{% endblock %}
