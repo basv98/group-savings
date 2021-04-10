@@ -27,3 +27,23 @@ function drawChart() {
     var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
     chart.draw(data, google.charts.Bar.convertOptions(options));
 }
+
+function goal(anio = 2021) {
+    let monto;
+    $.ajax({
+        type: "POST",
+        url: "goal",
+        data: { anio },
+        async: false,
+        dataType: "JSON",
+        success: function (response) {
+            monto = response.mount;
+        }
+    });
+    return monto;
+}
+
+function modalAhorro() {
+    $("#montoMeta").val(goal($("#anioMetaAhorro").val()));
+    $("#modalAhorro").modal("show");
+}

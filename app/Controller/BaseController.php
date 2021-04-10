@@ -2,8 +2,7 @@
 
 namespace App\Controller;
 
-use Laminas\Diactoros\Response\HtmlResponse;
-use Laminas\Diactoros\Response\RedirectResponse;
+use Laminas\Diactoros\Response\{HtmlResponse, RedirectResponse, JsonResponse};
 
 class BaseController
 {
@@ -18,5 +17,10 @@ class BaseController
     public function redirect($url)
     {
         return new RedirectResponse($url);
+    }
+
+    public function json($data)
+    {
+        return new JsonResponse($data);
     }
 }

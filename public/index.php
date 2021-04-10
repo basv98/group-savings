@@ -39,6 +39,16 @@ $map->get('dashboard', '/dashboard', [
     "needAuth" => true
 ]);
 
+$map->post('goal', '/goal', [
+    "Controller" => "App\Controller\GoalController",
+    "Action" => "goal",
+]);
+
+$map->post('goalSave', '/goal/guardarController', [
+    "Controller" => "App\Controller\GoalController",
+    "Action" => "guardarController",
+]);
+
 $matcher = $routerContainer->getMatcher();
 $route = $matcher->match($request);
 

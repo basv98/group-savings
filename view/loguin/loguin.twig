@@ -1,18 +1,29 @@
 {% extends "/layout/layout.twig" %}
 {% block content %}
-<h1>Loguin<h1>
-<div class="alert alert-info" role="alert">
+{% if response %}
+<div class="alert alert-danger" role="alert">
   {{response}}
 </div>
- <form action="../loguin/auth" method="post">
-      <div class="mb-3">
-          <label for="exampleInputEmail1" class="form-label">Email address</label>
-          <input type="email" class="form-control" name="correo" aria-describedby="emailHelp">
-      </div>
-      <div class="mb-3">
-          <label for="exampleInputPassword1" class="form-label">Password</label>
-          <input type="password" class="form-control" name="password">
-      </div>
-      <button type="submit" class="btn btn-primary">Sigin</button>
-  </form>
+{% endif %}
+<div class="card my-5 mx-auto w-50">
+  <div class="card-header">
+    <h5 class="text-center">Login</h5>
+  </div>
+  <div class="card-body">
+      <form action="../loguin/auth" method="post">
+          <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Email address</label>
+              <input type="email" class="form-control" name="correo" aria-describedby="emailHelp">
+          </div>
+          <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label">Password</label>
+              <input type="password" class="form-control" name="password">
+          </div>
+          <div class="d-grid gap-2  mx-auto my-2">
+              <button type="submit" class="btn btn-primary">Sigin</button>
+          </div>
+      </form>
+  </div>
+</div>
+
 {% endblock %}

@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use Laminas\Diactoros\Response\JsonResponse;
+
 class DashboardController extends BaseController
 {
     public function getIndex()
