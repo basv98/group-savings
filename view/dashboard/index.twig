@@ -1,29 +1,33 @@
 {% extends "/layout/layout.twig" %}
 {% block content %}
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">SG</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <div class="navbar-nav">
-        <a class="nav-link active" aria-current="page" href="#">Home</a>
-        <a class="nav-link" href="#">Mis ahorros</a>
-        <a class="nav-link" href="#">Meta</a>
-        <a class="nav-link" href="#">Configurar</a>
-      </div>
-    </div>
-  </div>
-</nav>
+{% include '/layout/navbar.twig' %}
 <div class="row my-3">
     <div class="col-6">
-        <select class="form-select" aria-label="Default select example">
+        <label for="selectAnioAhorro" class="form-label">Año</label>
+        <select class="form-select" id="selectAnioAhorro" onchange="drawChart()" aria-label="Default select example">
         {% for i in 2021..2028 %}
             <option value="{{ i }}">{{ i }}</option>
         {% endfor %}
         </select>
     </div>
+    <div class="col-6">
+        <label for="selectMesMontoAhorro" class="form-label">Mes</label>
+          <select class="form-select" id="selectMesMontoAhorro" onchange="drawChart()" aria-label="Default select example">
+             <option value="0">Todos</option>
+             <option value="1">Enero</option>
+             <option value="2">Febrero</option>
+             <option value="3">Marzo</option>
+             <option value="4">Abril</option>
+             <option value="5">Mayo</option>
+             <option value="6">Junio</option>
+             <option value="7">Julio</option>
+             <option value="8">Agosto</option>
+             <option value="9">Septiembre</option>
+             <option value="10">Octubre</option>
+             <option value="11">Noviembre</option>
+             <option value="12">Diciembre</option>
+           </select>
+      </div>
 </div>
 <div id="columnchart_material" class="my-4" style="width: 100%; height: 500px;"></div>
 <script src="assets/js/graficas.js"></script>
@@ -32,8 +36,11 @@
 <button type="button" class="btn btn-primary" onclick="modalAhorro()">
   Meta de ahorro
 </button>
+<button type="button" class="btn btn-primary" onclick="modalIngresarAhorro()">
+  Ingresar Monto
+</button>
 
-<!-- Modal -->
+<!-- Modal ahorro -->
 <div class="modal fade" id="modalAhorro" tabindex="-1" aria-labelledby="modalAhorroLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -44,7 +51,7 @@
       <div class="modal-body m-4">
         <div class="row">
             <div class="col">
-                 <label for="anioMetaAhorro" class="form-label">Disabled input</label>
+                 <label for="anioMetaAhorro" class="form-label">Año</label>
                  <select class="form-select" id="anioMetaAhorro" onchange="modalAhorro()" aria-label="Default select example">
                     {% for i in 2021..2028 %}
                         <option value="{{ i }}">{{ i }}</option>
@@ -52,14 +59,64 @@
                   </select>
             </div>
             <div class="col">
-                <label for="montoMeta" class="form-label">Disabled input</label>
-                <input type="text" class="form-control" id="montoMeta" value="324234" aria-describedby="emailHelp">
+                <label for="montoMeta" class="form-label">Meta</label>
+                <input type="text" class="form-control" id="montoMeta">
             </div>
         </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-primary">Guardar cambios</button>
+        <button type="button" class="btn btn-primary">Guardar ahorro</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal ahorro -->
+<div class="modal fade" id="modalIngresarAhorro" tabindex="-1" aria-labelledby="modalInsertarAhorro" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modalInsertarAhorro">Ingresar ahorro</h3>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body m-4">
+        <div class="row">
+            <div class="col-6">
+                 <label for="anioMontoAhorro" class="form-label">Año</label>
+                 <select class="form-select" id="anioMontoAhorro" aria-label="Default select example">
+                    {% for i in 2021..2028 %}
+                        <option value="{{ i }}">{{ i }}</option>
+                    {% endfor %}
+                  </select>
+            </div>
+            <div class="col-6">
+                 <label for="mesMontoAhorro" class="form-label">Mes</label>
+                 <select class="form-select" id="mesMontoAhorro" aria-label="Default select example">
+                    <option value="1">Enero</option>
+                    <option value="2">Febrero</option>
+                    <option value="3">Marzo</option>
+                    <option value="4">Abril</option>
+                    <option value="5">Mayo</option>
+                    <option value="6">Junio</option>
+                    <option value="7">Julio</option>
+                    <option value="8">Agosto</option>
+                    <option value="9">Septiembre</option>
+                    <option value="10">Octubre</option>
+                    <option value="11">Noviembre</option>
+                    <option value="12">Diciembre</option>
+                  </select>
+            </div>
+            <div class="col">
+                <label for="montoMeta" class="form-label">Monto</label>
+                <input type="text" class="form-control" id="montoAhorrro">
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="button" onclick="guardarAhorro()" class="btn btn-primary">Guardar cambios</button>
       </div>
     </div>
   </div>

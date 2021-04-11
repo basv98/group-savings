@@ -44,4 +44,10 @@ class LoginController extends BaseController
             return $this->render("/loguin/loguin.twig", ["response" => $e->getMessage()]);
         }
     }
+
+    public function logout()
+    {
+        session_destroy();
+        return $this->redirect("/loguin");
+    }
 }

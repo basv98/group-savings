@@ -23,13 +23,17 @@ $routerContainer = new RouterContainer();
 $map = $routerContainer->getMap();
 
 // loguin
-$map->get('loguin', '/', [
+$map->get('loguin', '/loguin', [
     "Controller" => "App\Controller\LoginController",
     "Action" => "getIndex"
 ]);
 $map->post('loguinAuth', '/loguin/auth', [
     "Controller" => "App\Controller\LoginController",
     "Action" => "auth"
+]);
+$map->get('logout', '/loguin/logout', [
+    "Controller" => "App\Controller\LoginController",
+    "Action" => "logout"
 ]);
 
 //DASHBOARD
@@ -42,11 +46,25 @@ $map->get('dashboard', '/dashboard', [
 $map->post('goal', '/goal', [
     "Controller" => "App\Controller\GoalController",
     "Action" => "goal",
+    "needAuth" => true
 ]);
 
 $map->post('goalSave', '/goal/guardarController', [
     "Controller" => "App\Controller\GoalController",
     "Action" => "guardarController",
+    "needAuth" => true
+]);
+
+$map->post('saveSaving', '/saving/save', [
+    "Controller" => "App\Controller\SavingController",
+    "Action" => "saveSaving",
+    "needAuth" => true
+]);
+
+$map->post('saving', '/saving', [
+    "Controller" => "App\Controller\SavingController",
+    "Action" => "saving",
+    "needAuth" => true
 ]);
 
 $matcher = $routerContainer->getMatcher();
@@ -57,9 +75,9 @@ if ($route->isRoutable) {
     $controller = $handler['Controller'];
     $action = $handler['Action'];
     $needAuth = $handler['needAuth'];
-    
+
     if (!isset($_SESSION['id']) && $needAuth) {
-        die("no tienes acceso a esta pagina");
+        header("location:/loguin");
     }
 
     $callController = new $controller();

@@ -2,48 +2,100 @@ google.charts.load('current', { 'packages': ['bar'] });
 google.charts.setOnLoadCallback(drawChart);
 
 function drawChart() {
-    var data = google.visualization.arrayToDataTable([
-        ['Year', 'Jess', 'Bryan'],
-        ['Enero', 1000, 400],
-        ['Febrero', 1170, 460],
-        ['Marzo', 660, 1120],
-        ['Abril', 1030, 540],
-        ['Mayo', 1030, 540],
-        ['Junio', 1030, 540],
-        ['Julio', 1030, 540],
-        ['Agosto', 1030, 540],
-        ['Septiembre', 1030, 540],
-        ['Octubre', 1030, 540],
-        ['Noviembre', 1030, 540],
-        ['Diciembre', 1030, 540],
-    ]);
+    let anio = $("#selectAnioAhorro").val();
+    let mes_id = $("#selectMesMontoAhorro").val();
+    saving(anio, mes_id).then(function (saving) {
+        var data = google.visualization.arrayToDataTable(saving);
 
-    var options = {
-        chart: {
-            title: 'Ahorro grupal',
-            subtitle: 'Ahorro 2021',
-        }
-    };
-    var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
-    chart.draw(data, google.charts.Bar.convertOptions(options));
-}
-
-function goal(anio = 2021) {
-    let monto;
-    $.ajax({
-        type: "POST",
-        url: "goal",
-        data: { anio },
-        async: false,
-        dataType: "JSON",
-        success: function (response) {
-            monto = response.mount;
-        }
-    });
-    return monto;
+        var options = {
+            chart: {
+                title: 'Ahorro en pareja',
+                subtitle: 'Ahorro ' + anio,
+            },
+            vAxis: {format: 'decimal'},
+        };
+        var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
+        chart.draw(data, google.charts.Bar.convertOptions(options));
+    }).catch(function (error) {
+        mensajeError(error);
+    })
 }
 
 function modalAhorro() {
-    $("#montoMeta").val(goal($("#anioMetaAhorro").val()));
-    $("#modalAhorro").modal("show");
+    goal($("#anioMetaAhorro").val())
+        .then(function (goal) {
+            $("#montoMeta").val(goal.mount);
+            $("#modalAhorro").modal("show");
+        }).catch(function () {
+            $("#modalAhorro").modal("hide");
+            mensajeError("no se encontro el año buscado");
+        });
+}
+
+function goal(anio) {
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            type: "POST",
+            url: "goal",
+            data: { anio },
+            dataType: "JSON",
+            success: function (data) {
+                resolve(data)
+            },
+            error: function (error) {
+                reject(error)
+            },
+        })
+    })
+}
+
+function guardarAhorro() {
+    $.ajax({
+        type: "POST",
+        url: "saving/save",
+        data: {
+            anio: $("#anioMontoAhorro").val(),
+            mes_id: $("#mesMontoAhorro").val(),
+            mount: $("#montoAhorrro").val()
+        },
+        dataType: "JSON",
+        success: function (response) {
+            $("#modalIngresarAhorro").modal("hide");
+            if (response.sucess) {
+                mensajeExitoso(response.response);
+                drawChart();
+            } else if (!response.sucess) {
+                error(response.response)
+            }
+        },
+        error: function (error) {
+            error(error)
+        },
+    })
+}
+
+function modalIngresarAhorro() {
+    $("#modalIngresarAhorro").modal("show");
+}
+
+function saving(anio, mes_id) {
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            type: "POST",
+            url: "saving",
+            data: { anio, mes_id },
+            dataType: "JSON",
+            async: false,
+            success: function (response) {
+                if (response.sucess) {
+                    resolve(response.saving);
+                } else {
+                    reject(response.response);
+                }
+            },
+            error: function (error) {
+                reject(error);
+            }
+        });
+    })
 }
