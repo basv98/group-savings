@@ -12,7 +12,7 @@ function drawChart() {
                 title: 'Ahorro en pareja',
                 subtitle: 'Ahorro ' + anio,
             },
-            vAxis: {format: 'decimal'},
+            vAxis: { format: 'decimal' },
         };
         var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
         chart.draw(data, google.charts.Bar.convertOptions(options));
@@ -24,7 +24,7 @@ function drawChart() {
 function modalAhorro() {
     goal($("#anioMetaAhorro").val())
         .then(function (goal) {
-            $("#montoMeta").val(goal.mount);
+            $("#montoMeta").val(numberFormat(goal.mount));
             $("#modalAhorro").modal("show");
         }).catch(function () {
             $("#modalAhorro").modal("hide");
@@ -56,20 +56,21 @@ function guardarAhorro() {
         data: {
             anio: $("#anioMontoAhorro").val(),
             mes_id: $("#mesMontoAhorro").val(),
-            mount: $("#montoAhorrro").val()
+            mount: $("#montoAhorrro").val().replace(/\./g, '')
         },
         dataType: "JSON",
         success: function (response) {
+            $("#montoAhorrro").val("")
             $("#modalIngresarAhorro").modal("hide");
             if (response.sucess) {
                 mensajeExitoso(response.response);
                 drawChart();
             } else if (!response.sucess) {
-                error(response.response)
+                mensajeError(response.response)
             }
         },
         error: function (error) {
-            error(error)
+            mensajeError(error)
         },
     })
 }
@@ -97,5 +98,29 @@ function saving(anio, mes_id) {
                 reject(error);
             }
         });
+    })
+}
+
+function guardarMeta() {
+    $.ajax({
+        type: "POST",
+        url: "goal/guardarController",
+        data: {
+            anio: $("#anioMetaAhorro").val(),
+            mount: $("#montoMeta").val().replace(/\./g, '')
+        },
+        dataType: "JSON",
+        success: function (response) {
+            $("#modalAhorro").modal("hide");
+            ("#montoMeta").val("")
+            if (response.sucess) {
+                mensajeExitoso(response.response);
+            } else if (!response.sucess) {
+                mensajeError(response.response)
+            }
+        },
+        error: function (error) {
+            mensajeError(error)
+        },
     })
 }

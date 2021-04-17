@@ -23,7 +23,7 @@ $routerContainer = new RouterContainer();
 $map = $routerContainer->getMap();
 
 // loguin
-$map->get('loguin', '/loguin', [
+$map->get('loguin', '/', [
     "Controller" => "App\Controller\LoginController",
     "Action" => "getIndex"
 ]);
@@ -77,7 +77,7 @@ if ($route->isRoutable) {
     $needAuth = $handler['needAuth'];
 
     if (!isset($_SESSION['id']) && $needAuth) {
-        header("location:/loguin");
+        header("location:/");
     }
 
     $callController = new $controller();

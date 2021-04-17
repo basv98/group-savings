@@ -6,10 +6,6 @@ use Laminas\Diactoros\Response\JsonResponse;
 
 class DashboardController extends BaseController
 {
-    public function __construct()
-    {
-        return $this->redirect("/login");
-    }
 
     public function getIndex()
     {

@@ -13,6 +13,7 @@ class GoalController extends BaseController
     {
         $datos = $request->getparsedBody();
         $goal = Goal::where("anio", $datos['anio'])->first();
+        $goal = $goal != null ? $goal : 0;
         return $this->json($goal);
     }
 

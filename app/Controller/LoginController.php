@@ -11,6 +11,9 @@ class LoginController extends BaseController
 {
     public function getIndex()
     {
+        if (isset($_SESSION['id'])) {
+            return $this->redirect("/dashboard");
+        }
         return $this->render("/loguin/loguin.twig");
     }
 
@@ -48,6 +51,6 @@ class LoginController extends BaseController
     public function logout()
     {
         session_destroy();
-        return $this->redirect("/loguin");
+        return $this->redirect("/");
     }
 }
