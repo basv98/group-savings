@@ -10,11 +10,11 @@ use Illuminate\Database\Capsule\Manager as Capsule;
 $capsule = new Capsule;
 
 $capsule->addConnection([
-    'driver'    => $_ENV['DB_DRIVER'],
-    'host'      => $_ENV['DB_HOST'],
-    'database'  => $_ENV['DB_NAME'],
-    'username'  => $_ENV['DB_USER'],
-    'password'  => $_ENV['DB_PASS'],
+    'driver'    => "pgsql",
+    'host'      => "queenie.db.elephantsql.com",
+    'database'  => "mijcvtlh",
+    'username'  => "mijcvtlh",
+    'password'  => "N2_Ob5doHV5-yQweD-V2pvSB8UT9YEPW",
     'charset'   => 'utf8',
     'collation' => 'utf8_unicode_ci',
     'prefix'    => '',
