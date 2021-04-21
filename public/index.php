@@ -25,15 +25,18 @@ $map = $routerContainer->getMap();
 // loguin
 $map->get('loguin', '/', [
     "Controller" => "App\Controller\LoginController",
-    "Action" => "getIndex"
+    "Action" => "getIndex",
+    "needAuth" => false
 ]);
 $map->post('loguinAuth', '/loguin/auth', [
     "Controller" => "App\Controller\LoginController",
-    "Action" => "auth"
+    "Action" => "auth",
+    "needAuth" => false
 ]);
 $map->get('logout', '/loguin/logout', [
     "Controller" => "App\Controller\LoginController",
-    "Action" => "logout"
+    "Action" => "logout",
+    "needAuth" => false
 ]);
 
 //DASHBOARD
