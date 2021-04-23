@@ -67,8 +67,8 @@ class SavingController extends BaseController
         $data = [['Mes', 'Jess', 'Bryan']];
         foreach ($meses as $mes) {
             $saving_bryan = $this->montoMensual(1, $mes->id, $anio);
-            $saving_jess = $this->montoMensual(2, $mes->id, $anio);
-            array_push($data, [$mes->mes, (int)$saving_jess->ahorro ?? 0, (int)$saving_bryan->ahorro ?? 0]);
+            // $saving_jess = $this->montoMensual(2, $mes->id, $anio);
+            array_push($data, [$mes->mes,  0, (int)$saving_bryan->ahorro ?? 0]);
         }
         return $data;
     }
